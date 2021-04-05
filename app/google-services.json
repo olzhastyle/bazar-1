@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "95545341809",
+    "project_id": "baza-r-2",
+    "storage_bucket": "baza-r-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:95545341809:android:fa4d797d26b61b4d75e8d0",
+        "android_client_info": {
+          "package_name": "com.example.baza_r"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "95545341809-vfe59tj8blmsor5er7pb2a8gmtbldg0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWbBKMfEtqaDw5heV5lssD6oZ8OwEhlY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "95545341809-vfe59tj8blmsor5er7pb2a8gmtbldg0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
