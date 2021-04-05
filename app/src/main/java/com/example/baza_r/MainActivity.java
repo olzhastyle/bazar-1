@@ -4,21 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRouter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    private RecyclerView postLost;
+    private RecyclerView postList;
     private Toolbar mToolbar;
     private ImageButton AddNewPostButton;
 
@@ -44,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView NavProfileUserName;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference UsersRef;
+    private DatabaseReference UsersRef, PostsRef;
 
     String currentUserId;
 
@@ -56,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
         mToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
@@ -69,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+
+        postList= (RecyclerView) findViewById(R.id.all_users_post_list);
+        postList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        postList.setLayoutManager(linearLayoutManager);
+
 
         View navView = navigationView.inflateHeaderView(R.layout.navigation_header);
 
@@ -117,6 +136,73 @@ public class MainActivity extends AppCompatActivity {
                 SendUserToPostActivity();
             }
         });
+
+        DisplayAllUsersPosts();
+    }
+
+
+    private void DisplayAllUsersPosts() {
+        FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(
+                        Posts.class,
+                        R.layout.all_posts_layout,
+                        PostsViewHolder.class,
+                        PostsRef
+                ) {
+                    @Override
+                    protected void populateViewHolder(PostsViewHolder postsViewHolder, Posts posts, int i) {
+                        postsViewHolder.setFullname(posts.getFullname());
+                        postsViewHolder.setTime(posts.getTime());
+                        postsViewHolder.setDate(posts.getDate());
+                        postsViewHolder.setDescription(posts.getDescription());
+                        postsViewHolder.setProfileimage(posts.getProfileimage());
+                        postsViewHolder.setPostimage(posts.getPostimage());
+
+                    }
+                };
+        postList.setAdapter(firebaseRecyclerAdapter);
+    }
+
+    public static class PostsViewHolder extends RecyclerView.ViewHolder {
+        View mView ;
+
+        public PostsViewHolder(@NonNull View itemView) {
+
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setFullname(String fullname) {
+            TextView username  = (TextView) mView.findViewById(R.id.post_user_name);
+            username.setText(fullname);
+        }
+        public void setProfileimage(String profileimage) {
+            CircleImageView profile_image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
+            Picasso.get().load(profileimage).into(profile_image);
+        }
+
+        public void setTime(String time) {
+            TextView postTime  = (TextView) mView.findViewById(R.id.post_time);
+            postTime.setText("   " + time);
+        }
+        public void setDate(String date) {
+            TextView postDate  = (TextView) mView.findViewById(R.id.post_date);
+            postDate.setText("   " + date);
+        }
+        public void setDescription(String description) {
+            TextView postDescription  = (TextView) mView.findViewById(R.id.post_description);
+            postDescription.setText(description);
+        }
+        public void setPostimage(String postimage) {
+
+            if (postimage != null){
+                ImageView post_Image = (ImageView) mView.findViewById(R.id.post_image);
+                Picasso.get().load(postimage).into(post_Image);
+                //пока не разобрался с проблемой изображения оставлю все так
+                //post_Image.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     private void SendUserToPostActivity() {

@@ -96,7 +96,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void ValidatePostInfo() {
-        String description = PostDescription.getText().toString();
+        description = PostDescription.getText().toString();
         //Можно удалить строку ниже, так как она обязывает загружать фотографию
         if (ImageUri == null){
             Toast.makeText(this, "Please Select Post Image", Toast.LENGTH_SHORT).show();
@@ -124,12 +124,14 @@ public class PostActivity extends AppCompatActivity {
 
         PostRandomName = saveCurrentDate + saveCurrentTime;
 
-        StorageReference filePath = PostImageReference.child("postimages").child(ImageUri.getLastPathSegment() + PostRandomName + ".jpg");
+        StorageReference filePath = PostImageReference.child("postimage").child(ImageUri.getLastPathSegment() + PostRandomName + ".jpg");
 
         filePath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()){
+
+                    downloadUrl = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
                     Toast.makeText(PostActivity.this, "Image success update to storage", Toast.LENGTH_SHORT).show();
                     SavingPostInformationToDatabase();
                 }
@@ -162,6 +164,7 @@ public class PostActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful()){
+
                                         SendUserToMainActivity();
                                         Toast.makeText(PostActivity.this, "Post created successfully", Toast.LENGTH_SHORT).show();
                                         loadingBar.dismiss();
