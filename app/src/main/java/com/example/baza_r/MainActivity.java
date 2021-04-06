@@ -303,11 +303,18 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_settings:
                 Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
+                SendUserToSettingsActivity();
                 break;
             case R.id.nav_logout:
                 mAuth.signOut();
                 SendUserToLoginActivity();
                 break;
         }
+    }
+
+    private void SendUserToSettingsActivity() {
+        Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(settingsIntent);
+
     }
 }

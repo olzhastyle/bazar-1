@@ -98,10 +98,10 @@ public class PostActivity extends AppCompatActivity {
     private void ValidatePostInfo() {
         description = PostDescription.getText().toString();
         //Можно удалить строку ниже, так как она обязывает загружать фотографию
-        if (ImageUri == null){
-            Toast.makeText(this, "Please Select Post Image", Toast.LENGTH_SHORT).show();
-            StorageImageToFirebaseStorage();
-        }
+//        if (ImageUri == null){
+//            Toast.makeText(this, "Please Select Post Image", Toast.LENGTH_SHORT).show();
+//            StorageImageToFirebaseStorage();
+//        }
         if (TextUtils.isEmpty(description)){
             Toast.makeText(this, "Please Write Description", Toast.LENGTH_SHORT).show();
         }
@@ -110,7 +110,8 @@ public class PostActivity extends AppCompatActivity {
             loadingBar.setMessage("Please wait, while we updating your post...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
-            StorageImageToFirebaseStorage();
+           // StorageImageToFirebaseStorage();
+            SavingPostInformationToDatabase();
         }
     }
 
