@@ -151,12 +151,24 @@ public class MainActivity extends AppCompatActivity {
                 ) {
                     @Override
                     protected void populateViewHolder(PostsViewHolder postsViewHolder, Posts posts, int i) {
+
+                        final String PostKey = getRef(i).getKey();
+
                         postsViewHolder.setFullname(posts.getFullname());
                         postsViewHolder.setTime(posts.getTime());
                         postsViewHolder.setDate(posts.getDate());
                         postsViewHolder.setDescription(posts.getDescription());
                         postsViewHolder.setProfileimage(posts.getProfileimage());
                         postsViewHolder.setPostimage(posts.getPostimage());
+
+                        postsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent clickPostIntent = new Intent(MainActivity.this, ClickPostActivity.class);
+                                clickPostIntent.putExtra("PostKey", PostKey);
+                                startActivity(clickPostIntent);
+                            }
+                        });
 
                     }
                 };

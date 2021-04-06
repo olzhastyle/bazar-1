@@ -100,6 +100,7 @@ public class PostActivity extends AppCompatActivity {
         //Можно удалить строку ниже, так как она обязывает загружать фотографию
         if (ImageUri == null){
             Toast.makeText(this, "Please Select Post Image", Toast.LENGTH_SHORT).show();
+            StorageImageToFirebaseStorage();
         }
         if (TextUtils.isEmpty(description)){
             Toast.makeText(this, "Please Write Description", Toast.LENGTH_SHORT).show();
