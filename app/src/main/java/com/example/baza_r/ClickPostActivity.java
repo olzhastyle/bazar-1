@@ -61,17 +61,17 @@ public class ClickPostActivity extends AppCompatActivity {
 
                 if (snapshot.exists()) {
                     description = snapshot.child("description").getValue().toString();
-                    image = snapshot.child("postimage").getValue().toString();
+                    //image = snapshot.child("postimage").getValue().toString();
                     databaseUserID = snapshot.child("uid").getValue().toString();
 
                     PostDescription.setText(description);
-                    if (PostImage !=null) {
-                        Picasso.get().load(image).into(PostImage);
-                        PostImage.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        PostImage.setVisibility(View.GONE);
-                    }
+//                    if (PostImage !=null) {
+//                        Picasso.get().load(image).into(PostImage);
+//                        PostImage.setVisibility(View.VISIBLE);
+//                    }
+//                    else {
+//                        PostImage.setVisibility(View.GONE);
+//                    }
 
                     if (currentUserID.equals(databaseUserID)){
                         DeletePostButton.setVisibility(View.VISIBLE);

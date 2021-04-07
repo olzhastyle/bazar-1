@@ -288,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_profile:
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
+                SendUserToProfileActivity();
                 break;
             case R.id.nav_home:
                 Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();
@@ -310,6 +311,11 @@ public class MainActivity extends AppCompatActivity {
                 SendUserToLoginActivity();
                 break;
         }
+    }
+
+    private void SendUserToProfileActivity() {
+        Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(profileIntent);
     }
 
     private void SendUserToSettingsActivity() {
