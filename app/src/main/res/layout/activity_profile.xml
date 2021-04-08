@@ -7,13 +7,13 @@
     tools:context=".ProfileActivity"
     android:background="@color/colorProfile">
 
-    <include android:id="@+id/profile_toolbar"
+    <include android:id="@+id/profile_app_toolbar"
         layout="@layout/app_bar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/profile_toolbar">
+        android:layout_below="@+id/profile_app_toolbar">
 
         <RelativeLayout
             android:layout_width="match_parent"

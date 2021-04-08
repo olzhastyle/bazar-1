@@ -41,10 +41,9 @@ public class ProfileActivity extends AppCompatActivity {
         currentUserId = mAuth.getCurrentUser().getUid();
         profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
-        mToolbar = (Toolbar)findViewById(R.id.profile_toolbar);
+        mToolbar = (Toolbar)findViewById(R.id.profile_app_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Profile");
 
         userName = (TextView) findViewById(R.id.my_username);
