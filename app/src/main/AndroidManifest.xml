@@ -13,10 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BAZAR">
-        <activity android:name=".FindActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".ResetPasswordActivity"></activity>
+        <activity
+            android:name=".FindActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />

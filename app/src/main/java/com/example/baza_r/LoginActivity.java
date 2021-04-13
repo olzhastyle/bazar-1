@@ -35,7 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
     private Button LoginButton;
     private EditText UserEmail, UserPassword;
-    private TextView NeedNewAccountLink;
+    private TextView NeedNewAccountLink, ForgetPasswordLink;
     private ProgressDialog loadingBar;
 
     private static final int RC_SIGN_IN = 1;
@@ -55,11 +55,19 @@ public class LoginActivity extends AppCompatActivity {
         UserEmail = (EditText) findViewById(R.id.login_email);
         UserPassword = (EditText) findViewById(R.id.login_password);
         LoginButton = (Button) findViewById(R.id.login_button);
+        ForgetPasswordLink = (TextView) findViewById(R.id.forget_password_link);
         mAuth = FirebaseAuth.getInstance();
 
         googleSignInButton = (ImageView) findViewById(R.id.google_sign_button);
 
         loadingBar = new ProgressDialog(this);
+
+        ForgetPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            }
+        });
 
         NeedNewAccountLink.setOnClickListener(new View.OnClickListener() {
             @Override
