@@ -92,7 +92,12 @@ public class SettingsActivity extends AppCompatActivity {
                     String myGender = snapshot.child("gender").getValue().toString();
                     String myRelationStatus = snapshot.child("relationship").getValue().toString();
 
-                    Picasso.get().load(myProfileImage).placeholder(R.drawable.profile).into(userProfImage);
+                    if (myProfileImage.isEmpty()){
+                        return;
+                    }
+                    else {
+                        Picasso.get().load(myProfileImage).placeholder(R.drawable.profile).into(userProfImage);
+                    }
 
                     userName.setText(myUserName);
                     userProfName.setText(myUserProfileName);

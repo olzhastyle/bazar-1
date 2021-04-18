@@ -55,6 +55,7 @@ public class PostActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private String saveCurrentDate, saveCurrentTime, PostRandomName, downloadUrl, current_user_id;
+    private long countPosts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +81,12 @@ public class PostActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Update post!");
 
-        SelectPostImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenGallery();
-            }
-        });
+//        SelectPostImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                OpenGallery();
+//            }
+//        });
 
         UpdatePostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,12 +111,42 @@ public class PostActivity extends AppCompatActivity {
             loadingBar.setMessage("Please wait, while we updating your post...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
-           // StorageImageToFirebaseStorage();
+//            StorageImageToFirebaseStorage();
             SavingPostInformationToDatabase();
         }
     }
 
-    private void StorageImageToFirebaseStorage() {
+//    private void StorageImageToFirebaseStorage() {
+//        Calendar calForDate = Calendar.getInstance();
+//        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
+//        saveCurrentDate = currentDate.format(calForDate.getTime());
+//
+//        Calendar calForTime = Calendar.getInstance();
+//        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");
+//        saveCurrentTime = currentTime.format(calForDate.getTime());
+//
+//        PostRandomName = saveCurrentDate + saveCurrentTime;
+//
+//        StorageReference filePath = PostImageReference.child("postimage").child(ImageUri.getLastPathSegment() + PostRandomName + ".jpg");
+//
+//        filePath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                if (task.isSuccessful()){
+//
+//                    downloadUrl = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
+//                    Toast.makeText(PostActivity.this, "Image success update to storage", Toast.LENGTH_SHORT).show();
+//                    SavingPostInformationToDatabase();
+//                }
+//                else    {
+//                    String message = task.getException().getMessage();
+//                    Toast.makeText(PostActivity.this, "Error:" + message, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+//    }
+
+    private void SavingPostInformationToDatabase() {
         Calendar calForDate = Calendar.getInstance();
         SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
         saveCurrentDate = currentDate.format(calForDate.getTime());
@@ -126,32 +157,29 @@ public class PostActivity extends AppCompatActivity {
 
         PostRandomName = saveCurrentDate + saveCurrentTime;
 
-        StorageReference filePath = PostImageReference.child("postimage").child(ImageUri.getLastPathSegment() + PostRandomName + ".jpg");
-
-        filePath.putFile(ImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        PostsRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()){
-
-                    downloadUrl = task.getResult().getMetadata().getReference().getDownloadUrl().toString();
-                    Toast.makeText(PostActivity.this, "Image success update to storage", Toast.LENGTH_SHORT).show();
-                    SavingPostInformationToDatabase();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    countPosts = snapshot.getChildrenCount();
                 }
-                else    {
-                    String message = task.getException().getMessage();
-                    Toast.makeText(PostActivity.this, "Error:" + message, Toast.LENGTH_SHORT).show();
+                else {
+                    countPosts = 0;
                 }
             }
-        });
-    }
 
-    private void SavingPostInformationToDatabase() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         UsersRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    String userFullName = snapshot.child("fullname").getValue().toString();
-                    String userProfileImage = snapshot.child("profileimage").getValue().toString();
+                    final String userFullName = snapshot.child("fullname").getValue().toString();
+                    final String userProfileImage = snapshot.child("profileimage").getValue().toString();
 
                     HashMap postMap = new HashMap();
                         postMap.put("uid", current_user_id);
@@ -161,6 +189,7 @@ public class PostActivity extends AppCompatActivity {
                         postMap.put("postimage", downloadUrl);
                         postMap.put("profileimage", userProfileImage);
                         postMap.put("fullname", userFullName);
+                        postMap.put("counter", countPosts);
                     PostsRef.child(current_user_id + PostRandomName).updateChildren(postMap)
                             .addOnCompleteListener(new OnCompleteListener() {
                                 @Override

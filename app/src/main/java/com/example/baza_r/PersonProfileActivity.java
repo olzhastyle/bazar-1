@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,43 +17,28 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class PersonProfileActivity extends AppCompatActivity {
     private TextView userName, userProfName, userStatus, userCountry, userGender, userRelation, userDOB;
     private CircleImageView userProfileImage;
+    private Button SendFriendRequestButton, DeclineRequestButton;
 
-    private DatabaseReference profileUserRef;
+    private DatabaseReference UserRef;
     private FirebaseAuth mAuth;
-
-    private Toolbar mToolbar;
-
-    private String currentUserId;
-
-
+    private String senderUserId, recieverUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_person_profile);
 
         mAuth = FirebaseAuth.getInstance();
-        currentUserId = mAuth.getCurrentUser().getUid();
-        profileUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
 
-        mToolbar = (Toolbar)findViewById(R.id.profile_app_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profile");
+        recieverUserId = getIntent().getExtras().get("visit_user_id").toString();
+        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        userName = (TextView) findViewById(R.id.my_username);
-        userProfName = (TextView) findViewById(R.id.my_profile_full_name);
-        userStatus = (TextView) findViewById(R.id.my_profile_status);
-        userCountry = (TextView) findViewById(R.id.my_country);
-        userGender = (TextView) findViewById(R.id.my_gender);
-        userRelation = (TextView) findViewById(R.id.my_relationship_status);
-        userDOB = (TextView) findViewById(R.id.my_dob);
-        userProfileImage = (CircleImageView)findViewById(R.id.my_profile_pic);
+        InitializeFields();
 
-        profileUserRef.addValueEventListener(new ValueEventListener() {
+        UserRef.child(recieverUserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String myProfileImage = snapshot.child("profileimage").getValue().toString();
@@ -74,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
                     Picasso.get().load(myProfileImage).placeholder(R.drawable.profile).into(userProfileImage);
                 }
 
-
                 userName.setText("@" + myUserName);
                 userProfName.setText(myUserProfileName);
                 userStatus.setText(myProfileStatus);
@@ -89,6 +71,18 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void InitializeFields() {
+        userName = (TextView) findViewById(R.id.person_username);
+        userProfName = (TextView) findViewById(R.id.person_full_name);
+        userStatus = (TextView) findViewById(R.id.person_status);
+        userCountry = (TextView) findViewById(R.id.person_country);
+        userGender = (TextView) findViewById(R.id.person_gender);
+        userRelation = (TextView) findViewById(R.id.person_relationship_status);
+        userDOB = (TextView) findViewById(R.id.person_dob);
+        userProfileImage = (CircleImageView)findViewById(R.id.person_profile_pic);
+        SendFriendRequestButton = (Button) findViewById(R.id.person_send_friend_request_button);
+        DeclineRequestButton = (Button) findViewById(R.id.person_decline_friend_request_button);
     }
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -76,10 +77,21 @@ public class FindActivity extends AppCompatActivity {
 
         ) {
             @Override
-            protected void populateViewHolder(FindPeopleViewHolder findPeopleViewHolder, FindPeople findPeople, int i) {
+            protected void populateViewHolder(FindPeopleViewHolder findPeopleViewHolder, FindPeople findPeople, int position) {
                 findPeopleViewHolder.setFullname(findPeople.getFullname());
                 findPeopleViewHolder.setStatus(findPeople.getStatus());
                 findPeopleViewHolder.setProfileImage(findPeople.getProfileImage());
+
+                findPeopleViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String visit_user_id = getRef(position).getKey();
+
+                        Intent profileIntent = new Intent(FindActivity.this, PersonProfileActivity.class);
+                        profileIntent.putExtra("visit_user_id", visit_user_id);
+                        startActivity(profileIntent);
+                    }
+                });
             }
         };
         searchResultList.setAdapter(firebaseRecyclerAdapter);
