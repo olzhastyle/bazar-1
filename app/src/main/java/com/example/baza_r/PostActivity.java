@@ -152,7 +152,7 @@ public class PostActivity extends AppCompatActivity {
         saveCurrentDate = currentDate.format(calForDate.getTime());
 
         Calendar calForTime = Calendar.getInstance();
-        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss");
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
         PostRandomName = saveCurrentDate + saveCurrentTime;
