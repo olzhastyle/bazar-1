@@ -46,6 +46,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    private Boolean emailAdress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,9 +192,11 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                SendUserToMainActivity();
 
-                                Toast.makeText(LoginActivity.this, "Login was successfull", Toast.LENGTH_SHORT).show();
+                                VerifyEmailAdress();
+//                                SendUserToMainActivity();
+//
+//                                Toast.makeText(LoginActivity.this, "Login was successfull", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
                             else {
@@ -203,6 +207,19 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                     });
+        }
+    }
+
+    private void VerifyEmailAdress(){
+        FirebaseUser user = mAuth.getCurrentUser();
+        emailAdress = user.isEmailVerified();
+
+        if (emailAdress) {
+            SendUserToMainActivity();
+        }
+        else {
+            Toast.makeText(this, "Please verify account first!@", Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
         }
     }
 

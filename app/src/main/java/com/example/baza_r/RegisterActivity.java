@@ -95,8 +95,9 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                sendUserToSetupActivity();
-                                Toast.makeText(RegisterActivity.this, "Account created succesfully", Toast.LENGTH_SHORT).show();
+                                SendEmailVerificationMessage();
+//                                sendUserToSetupActivity();
+//                                Toast.makeText(RegisterActivity.this, "Account created succesfully", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             } else{
                                 String message = task.getException().getMessage();
@@ -108,10 +109,38 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    private void    SendEmailVerificationMessage() {
+        FirebaseUser user =  mAuth.getCurrentUser();
+
+        if (user !=null) {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this, "Please Verify your account", Toast.LENGTH_SHORT).show();
+                        sendUserToLoginActivity();
+                        mAuth.signOut();
+                    }
+                    else {
+                        String message = task.getException().getMessage();
+                        Toast.makeText(RegisterActivity.this, "Error:" + message, Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                    }
+                }
+            });
+        }
+    }
+
     private void sendUserToSetupActivity() {
         Intent setupIntent = new Intent(RegisterActivity.this, SetupActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
+        finish();
+    }
+    private void sendUserToLoginActivity() {
+        Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(loginIntent);
         finish();
     }
 }
