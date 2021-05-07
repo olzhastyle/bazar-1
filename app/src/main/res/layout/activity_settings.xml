@@ -31,7 +31,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/profile"/>
+                android:src="@drawable/avatar"/>
 
             <EditText
                 android:id="@+id/settings_status"

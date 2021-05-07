@@ -72,11 +72,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Messag
         usersDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    String image = snapshot.child("profileimage").getValue().toString();
+                if (snapshot.hasChild("profileimage")){
 
-                    Picasso.get().load(image).placeholder(R.drawable.profile).into(holder.recieverProfileImage);
+                    String image = snapshot.child("profileimage").getValue().toString();
+                    Picasso.get().load(image).placeholder(R.drawable.avatar).into(holder.recieverProfileImage);
                 }
+
+//                if (snapshot.hasChild("profileimage")){
+//                    String image = snapshot.child("profileimage").getValue().toString();
+//
+//                    Picasso.get().load(image).placeholder(R.drawable.avatar).into(holder.recieverProfileImage);
+//                }
             }
 
             @Override

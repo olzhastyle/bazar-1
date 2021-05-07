@@ -109,7 +109,7 @@ public class FindActivity extends AppCompatActivity {
 
         public void setProfileImage(String profileImage){
             CircleImageView myImage = (CircleImageView) mView.findViewById(R.id.all_users_profile_image);
-            Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(myImage);
+            Picasso.get().load(profileImage).placeholder(R.drawable.avatar).into(myImage);
         }
 
         public void setFullname(String fullname) {

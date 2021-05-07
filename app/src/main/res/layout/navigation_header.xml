@@ -13,7 +13,7 @@
         android:layout_marginStart="124dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="119dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/avatar"
         app:civ_border_color="@color/colorPrimaryDark"
         app:civ_border_width="2dp">
 

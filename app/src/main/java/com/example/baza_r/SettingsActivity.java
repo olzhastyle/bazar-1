@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists())
                 {
-                    String myProfileImage = snapshot.child("profileimage").getValue().toString();
+                    //String myProfileImage = snapshot.child("profileimage").getValue().toString();
                     String myUserName = snapshot.child("username").getValue().toString();
                     String myUserProfileName = snapshot.child("fullname").getValue().toString();
                     String myProfileStatus = snapshot.child("status").getValue().toString();
@@ -92,12 +92,14 @@ public class SettingsActivity extends AppCompatActivity {
                     String myGender = snapshot.child("gender").getValue().toString();
                     String myRelationStatus = snapshot.child("relationship").getValue().toString();
 
-                    if (myProfileImage.isEmpty()){
-                        return;
+                    if (snapshot.hasChild("profileimage")){
+
+                        String image = snapshot.child("profileimage").getValue().toString();
+                        Picasso.get().load(image).placeholder(R.drawable.avatar).into(userProfImage);
                     }
-                    else {
-                        Picasso.get().load(myProfileImage).placeholder(R.drawable.profile).into(userProfImage);
-                    }
+//                    else {
+//                        Picasso.get().load(image).placeholder(R.drawable.avatar).into(userProfImage);
+//                    }
 
                     userName.setText(myUserName);
                     userProfName.setText(myUserProfileName);
@@ -130,8 +132,21 @@ public class SettingsActivity extends AppCompatActivity {
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent, Gallery_pick);
+                //openDialog();
             }
         });
+        userProfImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                openDialog();
+                return false;
+            }
+        });
+    }
+
+    private void openDialog() {
+        GalleryDialog galleryDialog = new GalleryDialog();
+        galleryDialog.show(getSupportFragmentManager(), "Avatar change");
     }
 
     @Override

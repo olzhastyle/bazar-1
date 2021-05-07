@@ -9,7 +9,7 @@
         android:id="@+id/custom_profile_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/avatar"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="15dp"

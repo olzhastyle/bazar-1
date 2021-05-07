@@ -204,7 +204,10 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    final String profileImage = snapshot.child("profileimage").getValue().toString();
+                    if (snapshot.hasChild("profileimage")){
+                        final String profileImage = snapshot.child("profileimage").getValue().toString();
+                        Picasso.get().load(profileImage).placeholder(R.drawable.avatar).into(recieverProfileImage);
+                    }
                     final String type = snapshot.child("userState").child("type").getValue().toString();
                     final String date = snapshot.child("userState").child("date").getValue().toString();
                     final String time = snapshot.child("userState").child("time").getValue().toString();
@@ -216,7 +219,6 @@ public class ChatActivity extends AppCompatActivity {
                         userLastSeen.setText("last seen: " + date +" " + time);
                     }
 
-                    Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(recieverProfileImage);
                 }
             }
 

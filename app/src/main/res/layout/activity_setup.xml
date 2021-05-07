@@ -22,7 +22,7 @@
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/profile" />
+        android:src="@drawable/avatar" />
 
     <EditText
         android:id="@+id/setup_username"

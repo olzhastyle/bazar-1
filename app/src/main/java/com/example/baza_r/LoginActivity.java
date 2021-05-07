@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+
 public class LoginActivity extends AppCompatActivity {
     private Button LoginButton;
     private EditText UserEmail, UserPassword;
@@ -213,9 +215,16 @@ public class LoginActivity extends AppCompatActivity {
     private void VerifyEmailAdress(){
         FirebaseUser user = mAuth.getCurrentUser();
         emailAdress = user.isEmailVerified();
+        HashMap usermap = new HashMap();
 
         if (emailAdress) {
-            SendUserToMainActivity();
+            sendUserToSetupActivity();
+            if (usermap != null) {
+                //SendUserToMainActivity();
+            }
+            else {
+                sendUserToSetupActivity();
+            }
         }
         else {
             Toast.makeText(this, "Please verify account first!@", Toast.LENGTH_SHORT).show();
@@ -234,6 +243,13 @@ public class LoginActivity extends AppCompatActivity {
         Intent loginIntent = new Intent(LoginActivity.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
+        finish();
+    }
+
+    private void sendUserToSetupActivity() {
+        Intent setupIntent = new Intent(LoginActivity.this, SetupActivity.class);
+        setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(setupIntent);
         finish();
     }
 

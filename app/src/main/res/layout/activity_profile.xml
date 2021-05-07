@@ -26,7 +26,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/profile"/>
+                android:src="@drawable/avatar"/>
 
             <TextView
                 android:id="@+id/my_profile_full_name"

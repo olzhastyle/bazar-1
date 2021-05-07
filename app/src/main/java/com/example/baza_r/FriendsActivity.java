@@ -119,10 +119,13 @@ public class FriendsActivity extends AppCompatActivity {
                             friendsViewHolder.setDate(friends.getDate());
 
                             final String userName = snapshot.child("fullname").getValue().toString();
-                            final String profileImage = snapshot.child("profileimage").getValue().toString();
+
+                            if (snapshot.hasChild("profileimage")){
+                                final String profileImage = snapshot.child("profileimage").getValue().toString();
+                                friendsViewHolder.setProfileImage(profileImage);
+                            }
 
                             friendsViewHolder.setFullname(userName);
-                            friendsViewHolder.setProfileImage(profileImage);
 
                             friendsViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -176,7 +179,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         public void setProfileImage(String profileImage){
             CircleImageView myImage = (CircleImageView) mView.findViewById(R.id.all_users_profile_image);
-            Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(myImage);
+            Picasso.get().load(profileImage).placeholder(R.drawable.avatar).into(myImage);
         }
 
         public void setFullname(String fullname) {

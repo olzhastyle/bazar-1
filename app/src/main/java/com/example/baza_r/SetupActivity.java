@@ -97,7 +97,7 @@ public class SetupActivity extends AppCompatActivity {
                     String image = snapshot.child("profileimage").getValue().toString();
 
                     //Picasso.get().load(image).placeholder(R.drawable.profile).into(profileImage);
-                    Picasso.get().load(image).placeholder(R.drawable.profile).into(profileImage);
+                    Picasso.get().load(image).placeholder(R.drawable.avatar).into(profileImage);
                     }
                     else    {
                         Toast.makeText(SetupActivity.this, "Select Image", Toast.LENGTH_SHORT).show();

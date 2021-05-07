@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:layout_centerHorizontal="true">
+
+    <Button
+        android:id="@+id/open_gallery"
+        android:layout_width="400px"
+        android:layout_height="200px"
+        android:text="Gallery"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:id="@+id/delete_image"
+        android:layout_width="400px"
+        android:layout_height="200px"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/open_gallery"
+        android:text="Delete" />
+
+</RelativeLayout>
