@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WelcomeActivity">
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Добро пожаловать в BAZA-R!"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:layout_marginTop="50dp"
+        tools:layout_editor_absoluteX="177dp"
+        tools:layout_editor_absoluteY="321dp" />
+
+    <Button
+        android:id="@+id/welcome_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="Login!"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:height="100dp"
+        android:layout_below="@id/welcome_text"
+        android:layout_marginTop="100dp"
+        />
+    <Button
+        android:id="@+id/welcome_register_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="Register!"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:height="100dp"
+        android:layout_below="@id/welcome_login_button"
+        android:layout_marginTop="16dp"
+        />
+
+    <TextView
+        android:id="@+id/welcome_help_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Help"
+        android:textSize="20dp"
+        android:layout_alignParentBottom="true"
+        android:textAlignment="center"
+        android:layout_marginBottom="15dp"
+        />
+
+
+</RelativeLayout>

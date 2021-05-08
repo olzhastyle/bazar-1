@@ -84,30 +84,59 @@ public class SettingsActivity extends AppCompatActivity {
                 if (snapshot.exists())
                 {
                     //String myProfileImage = snapshot.child("profileimage").getValue().toString();
-                    String myUserName = snapshot.child("username").getValue().toString();
-                    String myUserProfileName = snapshot.child("fullname").getValue().toString();
-                    String myProfileStatus = snapshot.child("status").getValue().toString();
-                    String myDOB = snapshot.child("dob").getValue().toString();
-                    String myCountry = snapshot.child("countryname").getValue().toString();
-                    String myGender = snapshot.child("gender").getValue().toString();
-                    String myRelationStatus = snapshot.child("relationship").getValue().toString();
+                    //String myUserName = snapshot.child("username").getValue().toString();
+//                    String myUserProfileName = snapshot.child("fullname").getValue().toString();
+//                    String myProfileStatus = snapshot.child("status").getValue().toString();
+//                    String myDOB = snapshot.child("dob").getValue().toString();
+//                    String myCountry = snapshot.child("countryname").getValue().toString();
+//                    String myGender = snapshot.child("gender").getValue().toString();
+//                    String myRelationStatus = snapshot.child("relationship").getValue().toString();
 
                     if (snapshot.hasChild("profileimage")){
 
                         String image = snapshot.child("profileimage").getValue().toString();
                         Picasso.get().load(image).placeholder(R.drawable.avatar).into(userProfImage);
                     }
+                    if (snapshot.hasChild("username")){
+                        String myUsername = snapshot.child("username").getValue().toString();
+                        userName.setText(myUsername);
+                    }
+                    if (snapshot.hasChild("fullname")){
+                        String myUserProfName = snapshot.child("fullname").getValue().toString();
+                        userProfName.setText(myUserProfName);
+                    }
+                    if (snapshot.hasChild("status")){
+                        String myStatus = snapshot.child("status").getValue().toString();
+                        userStatus.setText(myStatus);
+                    }
+                    if (snapshot.hasChild("dob")){
+                        String myDOB = snapshot.child("dob").getValue().toString();
+                        userDOB.setText(myDOB);
+                    }
+                    if (snapshot.hasChild("countryname")){
+                        String myCountry = snapshot.child("countryname").getValue().toString();
+                        userCountry.setText(myCountry);
+                    }
+                    if (snapshot.hasChild("gender")){
+                        String myGender = snapshot.child("gender").getValue().toString();
+                        userGender.setText(myGender);
+                    }
+                    if (snapshot.hasChild("relationship")){
+                        String myRelation = snapshot.child("relationship").getValue().toString();
+                        userRelation.setText(myRelation);
+                    }
+
 //                    else {
 //                        Picasso.get().load(image).placeholder(R.drawable.avatar).into(userProfImage);
 //                    }
 
-                    userName.setText(myUserName);
-                    userProfName.setText(myUserProfileName);
-                    userStatus.setText(myProfileStatus);
-                    userDOB.setText(myDOB);
-                    userCountry.setText(myCountry);
-                    userGender.setText(myGender);
-                    userRelation.setText(myRelationStatus);
+                    //userName.setText(myUsername);
+//                    userProfName.setText(myUserProfileName);
+//                    userStatus.setText(myProfileStatus);
+//                    userDOB.setText(myDOB);
+//                    userCountry.setText(myCountry);
+//                    userGender.setText(myGender);
+//                    userRelation.setText(myRelationStatus);
 
                 }
             }
@@ -259,7 +288,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void UpdateAccountInformation(String username, String profilename, String status, String dob, String country, String gender, String relation) {
         HashMap userMap = new HashMap();
         userMap.put("username", username);
-        userMap.put("profilename", profilename);
+        userMap.put("fullname", profilename);
         userMap.put("status", status);
         userMap.put("dob", dob);
         userMap.put("countryname", country);

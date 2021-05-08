@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E1E1E1"
 
     tools:context=".PostActivity">
 
@@ -11,31 +12,46 @@
         android:id="@+id/update_post_page_toolbar"
         layout="@layout/app_bar_layout"/>
 
-    <ImageButton
-        android:id="@+id/select_post_image"
-        android:layout_width="228dp"
-        android:layout_height="205dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="97dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/select_image" />
+    <TextView
+        android:id="@+id/post_header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/update_post_page_toolbar"
+        android:layout_marginTop="16dp"
+        android:text="Что вы хотите купить?*"
+        android:layout_marginLeft="16dp"
+        android:textSize="20dp"
+        />
 
     <EditText
         android:id="@+id/post_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="178dp"
+        android:layout_below="@+id/post_header_text"
+        android:layout_marginTop="10dp"
+        android:height="100dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/inputs"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Write something about your image"
+        android:hint="Укажите больше подробностей, чтобы продавцы могли предложить вам товар"
+        android:textSize="16dp"
         android:inputType="textMultiLine"
         android:padding="15dp" />
+
+    <Spinner
+        android:id="@+id/post_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@id/post_description"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+
+        android:background="@drawable/inputs"
+        />
 
     <Button
         android:id="@+id/update_post_button"
@@ -43,9 +59,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button"
         android:padding="10dp"
         android:text="Update Post" />
+
+
 
 </RelativeLayout>

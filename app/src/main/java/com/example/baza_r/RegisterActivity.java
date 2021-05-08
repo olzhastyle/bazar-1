@@ -3,7 +3,9 @@ package com.example.baza_r;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -117,8 +119,8 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
+                        showVerifyDialog();
                         Toast.makeText(RegisterActivity.this, "Please Verify your account", Toast.LENGTH_SHORT).show();
-                        sendUserToLoginActivity();
                         mAuth.signOut();
                     }
                     else {
@@ -129,6 +131,20 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showVerifyDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Verify your account")
+                .setMessage("Verify your account")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        sendUserToLoginActivity();
+                    }
+                })
+                .create().show();
     }
 
     private void sendUserToSetupActivity() {

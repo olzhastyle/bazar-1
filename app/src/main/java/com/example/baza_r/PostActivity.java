@@ -14,9 +14,11 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
@@ -45,6 +47,7 @@ public class PostActivity extends AppCompatActivity {
     private Button UpdatePostButton;
     private EditText PostDescription;
     private ProgressDialog loadingBar;
+    private Spinner contactSpinner;
 
     private static final int Gallery_pick =1;
     private Uri ImageUri;
@@ -68,9 +71,13 @@ public class PostActivity extends AppCompatActivity {
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts");
 
+        contactSpinner = (Spinner) findViewById(R.id.post_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.post_contact_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        contactSpinner.setAdapter(adapter);
 
-
-        SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
+        //SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
         UpdatePostButton = (Button) findViewById(R.id.update_post_button);
         PostDescription = (EditText) findViewById(R.id.post_description);
         loadingBar = new ProgressDialog(this);

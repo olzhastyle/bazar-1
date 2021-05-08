@@ -3,4 +3,9 @@
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer CLose</string>
     <string name="todo">TODO</string>
+    <string-array name="post_contact_array">
+        <item>Напишите в приложении</item>
+        <item>Напишите в Whatsapp</item>
+        <item>Позвоните</item>
+    </string-array>
 </resources>

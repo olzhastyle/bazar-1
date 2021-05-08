@@ -1,10 +1,13 @@
 package com.example.baza_r;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,7 +33,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -47,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     private FirebaseAuth mAuth;
+    String currentUserId;
 
     private Boolean emailAdress;
 
@@ -54,6 +62,13 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+        if (firstStart){
+            showStartDialog();
+        }
 
         NeedNewAccountLink = (TextView) findViewById(R.id.register_account_link);
         UserEmail = (EditText) findViewById(R.id.login_email);
@@ -110,7 +125,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
+    private void showStartDialog() {
+        Intent welcomeIntent = new Intent(LoginActivity.this, WelcomeActivity.class);
+        startActivity(welcomeIntent);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+    }
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient);
@@ -148,7 +170,24 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
+//                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserId);
+//                            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                    if (snapshot.hasChild("username")) {
+//                                        Log.d(TAG, "signInWithCredential:success");
+//                                        SendUserToMainActivity();
+//                                        loadingBar.dismiss();
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                }
+//                            });
                             Log.d(TAG, "signInWithCredential:success");
                             SendUserToMainActivity();
                             loadingBar.dismiss();
@@ -162,8 +201,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -218,13 +255,14 @@ public class LoginActivity extends AppCompatActivity {
         HashMap usermap = new HashMap();
 
         if (emailAdress) {
-            sendUserToSetupActivity();
+
             if (usermap != null) {
-                //SendUserToMainActivity();
+                SendUserToMainActivity();
             }
             else {
                 sendUserToSetupActivity();
             }
+
         }
         else {
             Toast.makeText(this, "Please verify account first!@", Toast.LENGTH_SHORT).show();
@@ -250,7 +288,15 @@ public class LoginActivity extends AppCompatActivity {
         Intent setupIntent = new Intent(LoginActivity.this, SetupActivity.class);
         setupIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(setupIntent);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
         finish();
+//        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putBoolean("firstStart", false);
+//        editor.apply();
     }
 
     private void SendUserToRegisterActivity() {

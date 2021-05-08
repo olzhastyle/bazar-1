@@ -2,13 +2,16 @@ package com.example.baza_r;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaRouter;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+        if (firstStart){
+            showStartDialog();
+            sendUserToSetupActivity();
+        }
 
         mAuth = FirebaseAuth.getInstance();
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -143,6 +154,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DisplayAllUsersPosts();
+    }
+
+    private void sendUserToSetupActivity() {
+        Intent setupIntent = new Intent(MainActivity.this, SetupActivity.class);
+        startActivity(setupIntent);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+    }
+
+    private void showStartDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("One time dialog")
+                .setMessage("this sgould be one")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
     }
 
     public void updateUserStatus(String state){
